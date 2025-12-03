@@ -1,0 +1,32 @@
+# Deployment Configuration for Render
+
+## Build Command
+npm install
+
+## Start Command
+node server.js
+
+## Environment Variables (Set in Render Dashboard)
+- NODE_ENV=production
+- PORT=5000
+- DB_HOST=<your-planetscale-host>
+- DB_USER=<your-planetscale-user>
+- DB_PASSWORD=<your-planetscale-password>
+- DB_NAME=<your-db-name>
+- DB_PORT=3306
+- JWT_SECRET=<your-secure-jwt-secret>
+- CLIENT_URL=<your-frontend-vercel-url>
+- OPENAI_API_KEY=<optional-openai-key>
+
+## Database Configuration for PlanetScale
+PlanetScale uses MySQL 8.0+ with some differences:
+- No FOREIGN KEY constraints (use application-level validation)
+- Connection requires SSL
+- Use connection strings from PlanetScale dashboard
+
+## Deployment Steps:
+1. Create a new Web Service on Render
+2. Connect your GitHub repository
+3. Set build and start commands above
+4. Add environment variables
+5. Deploy!
