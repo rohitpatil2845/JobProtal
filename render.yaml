@@ -1,0 +1,52 @@
+# Render Blueprint for Job Portal Backend
+# This file enables one-click deployment on Render
+
+services:
+  # PostgreSQL Database
+  - type: pserv
+    name: jobportal-db
+    plan: free
+    databaseName: job_portal
+    databaseUser: job_portal_user
+    region: oregon
+
+  # Backend Web Service
+  - type: web
+    name: jobportal-backend
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DB_DIALECT
+        value: postgres
+      - key: DB_HOST
+        fromDatabase:
+          name: jobportal-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: jobportal-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: jobportal-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: jobportal-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: jobportal-db
+          property: password
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        value: https://jobportal.vercel.app
